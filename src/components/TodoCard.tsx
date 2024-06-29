@@ -1,15 +1,39 @@
+import { removeTodo, toggleState } from "../redux/features/todoSlice";
+import { useAppDispatch } from "../redux/hooks";
+
+type TTodoCardProp = {
+    title: string;
+    deadline: string;
+    description: string;
+    isCompleted: boolean;
+};
 
 
-const TodoCard = () => {
+const TodoCard: React.FC<TTodoCardProp> = ({title, deadline, description, isCompleted}) => {
+    console.log(isCompleted);
+    const dispatch = useAppDispatch();
+    
+    const handleToggleState = () => {
+        dispatch(toggleState(title));
+    }
     return (
         <div className="bg-white p-3 rounded-xl border flex items-center justify-between">
-        <h1 className="text-xl font-semibold">Title</h1>
-        <p>Deadline</p>
-        <p>Description</p>
+            <input onChange={handleToggleState} type="checkbox" name="" id="" />
+        <h1 className="text-xl font-semibold">{title}</h1>
+        <div>
+        {
+           isCompleted ? 
+           <p className="text-green-500">Done</p>
+           : 
+           <p className="text-rose-500">Pending</p> 
+        }
+        </div>
+        <p>{deadline}</p>
+        <p>{description}</p>
 
         <div className="flex items-center gap-4">
         <button className="btn btn-active btn-accent">Edit</button>
-        <button className="btn btn-error">Delete</button>
+        <button onClick={() => dispatch(removeTodo(title))} className="btn btn-error">Delete</button>
         </div>
     </div>
     );

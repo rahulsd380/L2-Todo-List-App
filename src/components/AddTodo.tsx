@@ -1,4 +1,6 @@
 import { FormEvent, useState } from "react";
+import { useAppDispatch } from "../redux/hooks";
+import { addTodo } from "../redux/features/todoSlice";
 
 
 const AddTodo = () => {
@@ -6,9 +8,11 @@ const AddTodo = () => {
   const [deadline, setDeadline] = useState('');
   const [description, setDescription] = useState('');
 
+  const dispatch = useAppDispatch();
+
   const handleAddTodo = (e: FormEvent) => {
     e.preventDefault();
-    console.log({ title, deadline, description });
+    dispatch(addTodo({title, deadline, description}));
 
     // Clear form fields after submission
     setTitle('');
@@ -28,7 +32,7 @@ const AddTodo = () => {
         <div className="mb-4">
           <label className="block text-sm font-medium mb-1" htmlFor="title">Title</label>
           <input
-          onBlur={(e) => e.target.value}
+          onBlur={(e) => setTitle(e.target.value)}
           name="title"
             type="text"
             id="title"
@@ -38,7 +42,7 @@ const AddTodo = () => {
         <div className="mb-4">
           <label className="block text-sm font-medium mb-1" htmlFor="deadline">Deadline</label>
           <input
-          onBlur={(e) => e.target.value}
+          onBlur={(e) => setDeadline(e.target.value)}
           name="deadline"
             type="date"
             id="deadline"
@@ -48,7 +52,7 @@ const AddTodo = () => {
         <div className="mb-4">
           <label className="block text-sm font-medium mb-1" htmlFor="description">Description</label>
           <textarea
-          onBlur={(e) => e.target.value}
+          onBlur={(e) => setDescription(e.target.value)}
           name="description"
             id="description"
             className="p-3 border rounded-md bg-white focus:outline-none w-full"
