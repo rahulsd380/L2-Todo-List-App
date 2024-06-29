@@ -1,18 +1,36 @@
 import { FormEvent, useState } from "react";
-import { useAppDispatch } from "../redux/hooks";
-import { addTodo } from "../redux/features/todoSlice";
+// import { useAppDispatch } from "../redux/hooks";
+// import { addTodo } from "../redux/features/todoSlice";
+import { useAddTodoMutation } from "../redux/api/api";
 
 
 const AddTodo = () => {
   const [title, setTitle] = useState('');
   const [deadline, setDeadline] = useState('');
   const [description, setDescription] = useState('');
+  const [priority, setPriority] = useState('');
 
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
+
+
+  const [addTodo, {data, isError, isLoading, isSuccess}] = useAddTodoMutation();
+
 
   const handleAddTodo = (e: FormEvent) => {
     e.preventDefault();
-    dispatch(addTodo({title, deadline, description}));
+    // dispatch(addTodo({title, deadline, description}));
+
+    const todoDetails = {
+      title: title,
+      deadline : deadline,
+      description : description,
+      priority : priority,
+      isCompleted : false,
+    };
+
+    addTodo(todoDetails);
+
+
 
     // Clear form fields after submission
     setTitle('');
@@ -33,6 +51,16 @@ const AddTodo = () => {
           <label className="block text-sm font-medium mb-1" htmlFor="title">Title</label>
           <input
           onBlur={(e) => setTitle(e.target.value)}
+          name="title"
+            type="text"
+            id="title"
+            className="p-3 border rounded-md bg-white focus:outline-none w-full"
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-1" htmlFor="title">Priority</label>
+          <input
+          onBlur={(e) => setPriority(e.target.value)}
           name="title"
             type="text"
             id="title"

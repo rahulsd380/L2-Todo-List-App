@@ -5,6 +5,7 @@ type TTodo = {
     deadline : string;
     description: string;
     isCompleted?: boolean;
+    priority: string;
 };
 
 type TInitialState = {

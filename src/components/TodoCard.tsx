@@ -6,11 +6,11 @@ type TTodoCardProp = {
     deadline: string;
     description: string;
     isCompleted: boolean;
+    priority: string;
 };
 
 
-const TodoCard: React.FC<TTodoCardProp> = ({title, deadline, description, isCompleted}) => {
-    console.log(isCompleted);
+const TodoCard: React.FC<TTodoCardProp> = ({title, deadline, description, isCompleted, priority}) => {
     const dispatch = useAppDispatch();
     
     const handleToggleState = () => {
@@ -20,6 +20,13 @@ const TodoCard: React.FC<TTodoCardProp> = ({title, deadline, description, isComp
         <div className="bg-white p-3 rounded-xl border flex items-center justify-between">
             <input onChange={handleToggleState} type="checkbox" name="" id="" />
         <h1 className="text-xl font-semibold">{title}</h1>
+        <div>
+            <p className={`
+                ${priority === "High" ? "text-rose-500" : ""}
+                ${priority === "Medium" ? "text-yellow-500" : ""}
+                ${priority === "Medium" ? "text-teal-500" : ""}
+                `}>{priority}</p>
+        </div>
         <div>
         {
            isCompleted ? 
